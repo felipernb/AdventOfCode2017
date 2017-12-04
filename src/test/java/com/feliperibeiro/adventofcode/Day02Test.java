@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 
 public class Day02Test {
 
@@ -29,11 +30,11 @@ public class Day02Test {
     Integer[][] parsedInput = Day02.parseInput("5 1 9 5\n"
                                                + "7 5 3\n"
                                                + "2 4 6 8\n");
-    assertTrue(Arrays.deepEquals(new Integer[][]{
+    assertArrayEquals(new Integer[][]{
         {5, 1, 9, 5},
         {7, 5, 3},
         {2, 4, 6, 8}
-    }, parsedInput));
+    }, parsedInput);
   }
 
   @Test
