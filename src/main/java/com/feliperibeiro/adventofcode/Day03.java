@@ -1,5 +1,7 @@
 package com.feliperibeiro.adventofcode;
 
+import java.util.Arrays;
+
 public class Day03 {
 
   public static int part1(final int i) {
@@ -19,18 +21,26 @@ public class Day03 {
     Direction dir = Direction.UP;
 
     for (int i = size * size; i > n; i--) {
-      switch(dir) {
+      switch (dir) {
         case UP:
-          if (--y == 0) dir = Direction.LEFT;
+          if (--y == 0) {
+            dir = Direction.LEFT;
+          }
           break;
         case DOWN:
-          if (++y == size - 1) dir = Direction.RIGHT;
+          if (++y == size - 1) {
+            dir = Direction.RIGHT;
+          }
           break;
         case LEFT:
-          if (--x == 0) dir = Direction.DOWN;
+          if (--x == 0) {
+            dir = Direction.DOWN;
+          }
           break;
         case RIGHT:
-          if (++x == size - 1) dir = Direction.UP;
+          if (++x == size - 1) {
+            dir = Direction.UP;
+          }
           break;
       }
     }
@@ -42,25 +52,45 @@ public class Day03 {
     return ceilSqrt + (ceilSqrt % 2 == 1 ? 0 : 1);
   }
 
-  static int sumAdj(int[][] grid, int row, int col) {
-    int sum = 0;
-    for (int i = Math.max(row - 1, 0); i < Math.min( row + 1, grid.length - 1); i++) {
-      for (int j = Math.max(col - 1, 0); j < Math.min(col + 1, grid.length - 1 ); j++) {
-        sum += grid[i][j];
+  static int part2(final int n) {
+    final int sz = 1000;
+    final int[] dr = new int[]{0, -1, 0, 1};
+    final int[] dc = new int[]{1, 0, -1, 0};
+
+    int grid[][] = new int[sz][sz];
+
+    int row = sz / 2;
+    int col = sz / 2;
+
+    grid[row][col] = 1;
+
+    int dir = 0;
+    for (int steps = 1; steps < sz; steps++) {
+      for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < steps; j++) {
+
+          row += dr[dir];
+          col += dc[dir];
+
+          grid[row][col] =
+              grid[row + 1][col] + grid[row][col + 1] +
+              grid[row - 1][col] + grid[row][col - 1] +
+              grid[row - 1][col - 1] + grid[row - 1][col + 1] +
+              grid[row + 1][col - 1] + grid[row + 1][col + 1];
+
+          if (grid[row][col] > n) {
+            return grid[row][col];
+          }
+        }
+        dir = (dir + 1) % 4;
       }
     }
-    return sum;
-  }
-
-
-  static int part2(final int n) {
-    // TODO: IMPLEMENT ME!
     return 0;
   }
 
   public static void main(String args[]) {
-    for (String s: args) {
-      System.out.println(s + ": " + part1(Integer.parseInt(s)));
+    for (String s : args) {
+      System.out.println(s + ": " + part2(Integer.parseInt(s)));
     }
   }
 }
